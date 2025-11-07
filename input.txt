@@ -6,4 +6,3 @@ date numPeople tempSetpoint tempOutside precip
 08-10-2025 1 19 14 0
 09-10-2025 1 19 13 3
 10-10-2025 3 21 14 0
-11-10-2025 3 21 16 0

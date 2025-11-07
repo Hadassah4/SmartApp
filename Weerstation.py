@@ -1,3 +1,5 @@
+import requests
+
 print("Welkom bij het Weerstation!")
 print("Voer per dag temperatuur (C), windsnelheid (m/s) en luchtvochtigheid (%) in.")
 print("Druk op Enter bij de temperatuur om te stoppen.\n")
@@ -44,11 +46,31 @@ while dag <= 7:
     else:
         rapport = "Warm! Airco aan!"
 
+
+    # Data versturen naar API
+    data = {
+        "dag": dag,
+        "temperatuur": temp,
+        "windsnelheid": wind,
+        "luchtvochtigheid": vocht,
+        "gevoelstemperatuur": gtemp,
+        "rapport": rapport
+    }
+
+    try:
+        response = requests.post("http://127.0.0.1:5000/api/weer", json=data)
+        if response.status_code == 200:
+            print("Data succesvol verstuurd naar de API.")
+        else:
+            print("Fout bij versturen:", response.text)
+    except Exception as e:
+        print("Kan geen verbinding maken met de API:", e)
+
     # Gemiddelde berekenen
     dagen_data.append(temp)
     gem_temp = sum(dagen_data) / len(dagen_data)
 
-    # Resultaten 
+    # Resultaten tonen
     print(f"\nTemperatuur: {temp:.1f}°C ({temp_f:.1f}°F)")
     print(rapport)
     print(f"Gemiddelde temperatuur t/m dag {dag}: {gem_temp:.1f}°C")

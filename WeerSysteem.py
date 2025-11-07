@@ -1,5 +1,3 @@
-import requests
-
 def aantal_dagen(inputFile):
     try:
         with open(inputFile, 'r') as f:
@@ -131,21 +129,6 @@ def overwrite_settings(outputFile):
         return -3
 
 
-def haal_weergegevens_op():
-    try:
-        r = requests.get("http://127.0.0.1:5000/api/weer")
-        if r.status_code == 200:
-            data = r.json()
-            print("\n--- Weer via API ---")
-            for k, v in data.items():
-                print(f"{k}: {v}")
-            print("--------------------\n")
-        else:
-            print("Fout bij ophalen:", r.text)
-    except Exception as e:
-        print("Kan API niet bereiken:", e)
-
-
 def smart_app_controller():
     print("=== SMART HOME CONTROLLER ===")
     inputFile = input("Voer de naam van het invoerbestand in (bijv. input.txt): ").strip()
@@ -156,10 +139,9 @@ def smart_app_controller():
         print("1. Toon aantal dagen in invoerbestand")
         print("2. Bereken automatisch alle actuatoren en schrijf uitvoerbestand")
         print("3. Overschrijf een waarde in het uitvoerbestand")
-        print("4. Weergegevens ophalen via API")
-        print("5. Stoppen")
+        print("4. Stoppen")
 
-        keuze = input("Maak een keuze (1-5): ").strip()
+        keuze = input("Maak een keuze (1-4): ").strip()
 
         if keuze == "1":
             dagen = aantal_dagen(inputFile)
@@ -178,9 +160,6 @@ def smart_app_controller():
                 print("Fout: ongeldig systeem of waarde.")
 
         elif keuze == "4":
-            haal_weergegevens_op()
-
-        elif keuze == "5":
             print("Programma afgesloten.")
             break
 
